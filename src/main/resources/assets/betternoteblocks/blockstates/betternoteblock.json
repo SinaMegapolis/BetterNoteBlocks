@@ -1,0 +1,13 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "facing=north": { "model": "betternoteblocks:noteblock" },
+    "facing=south": { "model": "betternoteblocks:noteblock", "y": 180 },
+    "facing=west":  { "model": "betternoteblocks:noteblock", "y": 270 },
+    "facing=east":  { "model": "betternoteblocks:noteblock", "y": 90 },
+    "inventory": {
+      "model": "betternoteblocks:noteblock",
+      "transform": "forge:default-block"
+    }
+  }
+}
