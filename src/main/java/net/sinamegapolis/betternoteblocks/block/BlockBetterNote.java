@@ -27,6 +27,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.sinamegapolis.betternoteblocks.init.IHasModel;
 import net.sinamegapolis.betternoteblocks.init.ModRegistry;
+import net.sinamegapolis.betternoteblocks.item.ItemNoteLoverTablet;
 import net.sinamegapolis.betternoteblocks.tileentity.TileEntityBetterNote;
 
 
@@ -40,7 +41,8 @@ public class BlockBetterNote extends BlockNote implements IHasModel{
 
     public BlockBetterNote(String name)
     {
-        this.setCreativeTab(CreativeTabs.REDSTONE);
+        setCreativeTab(CreativeTabs.REDSTONE);
+        setHardness(0.8f);
         setRegistryName(name);
         setUnlocalizedName(net.sinamegapolis.betternoteblocks.BetterNoteBlocks.MODID + "." + name);
         ModRegistry.BLOCKS.add(this);
@@ -88,7 +90,7 @@ public class BlockBetterNote extends BlockNote implements IHasModel{
                     if(tileentity instanceof TileEntityBetterNote){
                 TileEntityBetterNote tileentitynote = (TileEntityBetterNote) tileentity;
                 int old = tileentitynote.note;
-                tileentitynote.changePitch(playerIn);
+                tileentitynote.changePitch();
                 if (old == tileentitynote.note) return false;
                 tileentitynote.triggerNote(worldIn, pos, playerIn);
                 playerIn.addStat(StatList.NOTEBLOCK_TUNED);
@@ -102,19 +104,7 @@ public class BlockBetterNote extends BlockNote implements IHasModel{
 
     }
 
-    public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn)
-    {
-        if (!worldIn.isRemote)
-        {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
-            p.sendStatusMessage(new TextComponentString("Initiating The Process from onBlockClicked"), false);
-            if (tileentity instanceof TileEntityNote)
-            {
-                ((TileEntityNote)tileentity).triggerNote(worldIn, pos);
-                playerIn.addStat(StatList.NOTEBLOCK_PLAYED);
-            }
-        }
-    }
+
 
     /**
      * Returns a new instance of a block's tile entity class. Called on placing the block.

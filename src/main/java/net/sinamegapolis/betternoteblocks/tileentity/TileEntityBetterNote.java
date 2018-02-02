@@ -42,7 +42,7 @@ public class TileEntityBetterNote extends TileEntityNote
     /**
      * change pitch by -> (currentPitch + 1) % 25
      */
-    public void changePitch(EntityPlayer playerIn)
+    public void changePitch()
     {
         byte old = note;
         this.note = (byte)((this.note + 1) % 25);
