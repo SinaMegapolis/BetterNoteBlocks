@@ -2,10 +2,8 @@ package net.sinamegapolis.betternoteblocks.block;
 
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.BlockNote;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -20,14 +18,10 @@ import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.util.*;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.sinamegapolis.betternoteblocks.init.IHasModel;
 import net.sinamegapolis.betternoteblocks.init.ModRegistry;
-import net.sinamegapolis.betternoteblocks.item.ItemNoteLoverTablet;
+import net.sinamegapolis.betternoteblocks.item.ItemNotalyzer;
 import net.sinamegapolis.betternoteblocks.tileentity.TileEntityBetterNote;
 
 
@@ -58,7 +52,6 @@ public class BlockBetterNote extends BlockNote implements IHasModel{
     {
         boolean flag = worldIn.isBlockPowered(pos);
         TileEntity tileentity = worldIn.getTileEntity(pos);
-
         if (tileentity instanceof TileEntityNote)
         {
             TileEntityNote tileentitynote = (TileEntityNote)tileentity;
@@ -86,6 +79,7 @@ public class BlockBetterNote extends BlockNote implements IHasModel{
         }
         else
         {
+            if(!(playerIn.getHeldItem(hand).getItem() instanceof ItemNotalyzer)){
             TileEntity tileentity = worldIn.getTileEntity(pos);
                     if(tileentity instanceof TileEntityBetterNote){
                 TileEntityBetterNote tileentitynote = (TileEntityBetterNote) tileentity;
@@ -94,7 +88,7 @@ public class BlockBetterNote extends BlockNote implements IHasModel{
                 if (old == tileentitynote.note) return false;
                 tileentitynote.triggerNote(worldIn, pos, playerIn);
                 playerIn.addStat(StatList.NOTEBLOCK_TUNED);
-            }
+            }}
 
             return true;
         }
@@ -171,6 +165,11 @@ public class BlockBetterNote extends BlockNote implements IHasModel{
     public int getMetaFromState(IBlockState state)
     {
         return ((EnumFacing)state.getValue(FACING)).getIndex();
+    }
+
+    @Override
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+        return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
     @Override

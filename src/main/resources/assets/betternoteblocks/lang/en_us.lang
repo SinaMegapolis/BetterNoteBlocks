@@ -1,3 +1,17 @@
-item.betternoteblocks.notelover_tablet.name=NoteLovers' Tablet
+item.betternoteblocks.notalyzer.name=§cN§3o§6t§dalyzer
 
-tile.betternoteblocks.betternoteblock.name=Better NoteBlock
+tile.betternoteblocks.betternoteblock.name=Better §cN§3o§6t§deBlock
+
+notalyzer.results.currentpitch=The Current Pitch of this BetterNoteBlock is 
+notalyzer.results.instrument=Instrument: 
+notalyzer.results.instrument.otherblocks=Harp/Piano
+notalyzer.results.instrument.rockmaterial=Bass Drum
+notalyzer.results.instrument.sandmaterial=Snare Drum
+notalyzer.results.instrument.glassmaterial=Clicks and Sicks
+notalyzer.results.instrument.woodmaterial=String Bass
+notalyzer.results.instrument.clayblock=Flute
+notalyzer.results.instrument.goldblock=Bell
+notalyzer.results.instrument.woolblock=Guitar
+notalyzer.results.instrument.packediceblock=Chime
+notalyzer.results.instrument.boneblock=Xylophone
+notalyzer.results.badblock=tHiS iS nOt A nOtEbLoCk! iNiTiAtInG sElF-dEsTrUcTiOn PrOcEsS...

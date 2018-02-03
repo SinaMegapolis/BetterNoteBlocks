@@ -6,7 +6,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.sinamegapolis.betternoteblocks.block.BlockBetterNote;
-import net.sinamegapolis.betternoteblocks.item.ItemNoteLoverTablet;
+import net.sinamegapolis.betternoteblocks.item.ItemNotalyzer;;
 import net.sinamegapolis.betternoteblocks.tileentity.TileEntityBetterNote;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class ModRegistry {
     public static final List<Block> BLOCKS = new ArrayList<Block>();
     public static final List<Item> ITEMS = new ArrayList<Item>();
     public static final Block BetterNoteBlock = new BlockBetterNote("betternoteblock");
-    public static final Item NoteLoverTablet = new ItemNoteLoverTablet("notelover_tablet");
+    public static final Item Notalyzer = new ItemNotalyzer("notalyzer");
 
     @SubscribeEvent
     public void onBlockRegister(RegistryEvent.Register<Block> event) {
