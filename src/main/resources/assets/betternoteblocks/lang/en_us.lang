@@ -1,9 +1,11 @@
-item.betternoteblocks.notalyzer.name=§cN§3o§6t§dalyzer
+item.betternoteblocks.notalyzer.name=Notalyzer
+item.betternoteblocks.magicalsolidnote.name=Magical Solid Note
 
-tile.betternoteblocks.betternoteblock.name=Better §cN§3o§6t§deBlock
+tile.betternoteblocks.betternoteblock.name=Better NoteBlock
+tile.betternoteblocks.notesolidifier.name=Note Solidifier
 
-notalyzer.results.currentpitch=The Current Pitch of this BetterNoteBlock is 
-notalyzer.results.instrument=Instrument: 
+notalyzer.results.currentpitch=The Current Pitch of this BetterNoteBlock is
+notalyzer.results.instrument=Instrument:
 notalyzer.results.instrument.otherblocks=Harp/Piano
 notalyzer.results.instrument.rockmaterial=Bass Drum
 notalyzer.results.instrument.sandmaterial=Snare Drum

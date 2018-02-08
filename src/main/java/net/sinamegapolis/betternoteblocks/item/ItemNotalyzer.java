@@ -1,21 +1,25 @@
 package net.sinamegapolis.betternoteblocks.item;
 
+import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -24,6 +28,9 @@ import net.sinamegapolis.betternoteblocks.gui.GuiNoteLoverTabletScreen;
 import net.sinamegapolis.betternoteblocks.init.IHasModel;
 import net.sinamegapolis.betternoteblocks.init.ModRegistry;
 import net.sinamegapolis.betternoteblocks.tileentity.TileEntityBetterNote;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemNotalyzer extends Item implements IHasModel{
 
@@ -44,24 +51,32 @@ public class ItemNotalyzer extends Item implements IHasModel{
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+        boolean isMSNStructurePresent = false;
         if(worldIn.isRemote){
-            return EnumActionResult.PASS;
+            if(worldIn.getTileEntity(pos) instanceof TileEntityBetterNote){
+                if(((TileEntityBetterNote) worldIn.getTileEntity(pos)).createMagicalSolidNote(worldIn, player,(TileEntityBetterNote) worldIn.getTileEntity(pos))) {
+                    isMSNStructurePresent = true;
+                    return EnumActionResult.SUCCESS;
+                }
+            }
         }
         TileEntity te = worldIn.getTileEntity(pos);
-        if(te instanceof TileEntityBetterNote){
-            player.sendStatusMessage(new TextComponentString(new TextComponentTranslation("notalyzer.results.currentpitch").getUnformattedComponentText() + ((TileEntityBetterNote) te).note),false );
-            player.sendStatusMessage(new TextComponentString(getInstrument(((TileEntityBetterNote)te), worldIn, pos)),false );
+        if(!isMSNStructurePresent){
+           if(te instanceof TileEntityBetterNote){
+            player.sendStatusMessage(new TextComponentString(new TextComponentTranslation("notalyzer.results.currentpitch").getUnformattedComponentText() +" " + ((TileEntityBetterNote) te).note),false );
+            player.sendStatusMessage(new TextComponentString(getInstrument(worldIn, pos)),false );
             return EnumActionResult.SUCCESS;
-        }
-        if(te instanceof TileEntityNote){
-            player.sendStatusMessage(new TextComponentString("ThIs Is NoT a NoTeBlOcK! iNiTiAtInG sElF-dEsTrUcTiOn PrOcEsS..."), false);
+           }
+           if(te instanceof TileEntityNote){
+            player.sendStatusMessage(new TextComponentTranslation("notalyzer.results.badblock"), false);
             player.setHeldItem(hand, ItemStack.EMPTY);
             worldIn.createExplosion(player, pos.getX(), pos.getY(), pos.getZ(), 4.0F, true);
+            }
         }
        return EnumActionResult.PASS;
     }
 
-    public String getInstrument(TileEntityNote te, World worldIn, BlockPos posIn){
+    private String getInstrument(World worldIn, BlockPos posIn){
         IBlockState iblockstate = worldIn.getBlockState(posIn.down());
         Material material = iblockstate.getMaterial();
         TextComponentTranslation Instrument = new TextComponentTranslation("notalyzer.results.instrument"),
@@ -112,6 +127,6 @@ public class ItemNotalyzer extends Item implements IHasModel{
         {
             InstrumentType = new TextComponentTranslation("notalyzer.results.instrument.boneblock");
         }
-        return Instrument.getUnformattedComponentText() + InstrumentType.getUnformattedComponentText();
+        return Instrument.getUnformattedComponentText() + " " + InstrumentType.getUnformattedComponentText();
     }
 }

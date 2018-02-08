@@ -5,7 +5,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
@@ -22,6 +25,8 @@ public class TileEntityBetterNote extends TileEntityNote
     public byte note;
     /** stores the latest redstone state */
     public boolean previousRedstoneState;
+    /**this is used in making MSN */
+    public int triggeredByRedstoneCount = 0;
 
     public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
@@ -50,7 +55,7 @@ public class TileEntityBetterNote extends TileEntityNote
         this.markDirty();
     }
 
-    public void triggerNote(World worldIn, BlockPos posIn, EntityPlayer playerIn)
+    public void triggerBetterNote(World worldIn, BlockPos posIn)
     {
         if (worldIn.getBlockState(posIn.up()).getMaterial() == Material.AIR)
         {
@@ -58,8 +63,7 @@ public class TileEntityBetterNote extends TileEntityNote
             Material material = iblockstate.getMaterial();
             int i = 0;
 
-            if (material == Material.ROCK)
-            {
+            if (material == Material.ROCK){
                 i = 1;
             }
 
@@ -107,5 +111,31 @@ public class TileEntityBetterNote extends TileEntityNote
             BlockBetterNote bbn = (BlockBetterNote)worldIn.getBlockState(posIn).getBlock();
             worldIn.addBlockEvent(posIn, bbn, i, this.note);
         }
+    }
+
+    public boolean createMagicalSolidNote(World worldIn, EntityPlayer playerIn, TileEntityBetterNote te){
+        if(checkForMSNCreationStructure(worldIn, te.getPos())){
+            int amount = worldIn.rand.nextInt(10 - 5 + 1)+ 5;
+            for(int i = 0; i < amount; i++){
+                worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, te.getPos().up().getX(), te.getPos().up().getY(), te.getPos().up().getZ(), 3.0F, 3.0F, 3.0F);
+            }
+            worldIn.playSound(playerIn, te.getPos().up(),  SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, 1.0F);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkForMSNCreationStructure(World worldIn, BlockPos pos){
+        if(!(worldIn.getTileEntity(pos.east()) instanceof TileEntityBetterNote)) return false;
+        if(!(worldIn.getTileEntity(pos.east().north()) instanceof TileEntityBetterNote)) return false;
+        if(!(worldIn.getTileEntity(pos.east().south()) instanceof TileEntityBetterNote)) return false;
+
+        if(!(worldIn.getTileEntity(pos.south()) instanceof TileEntityBetterNote)) return false;
+        if(!(worldIn.getTileEntity(pos.north()) instanceof TileEntityBetterNote)) return false;
+
+        if(!(worldIn.getTileEntity(pos.west()) instanceof TileEntityBetterNote)) return false;
+        if(!(worldIn.getTileEntity(pos.west().north()) instanceof TileEntityBetterNote)) return false;
+        if(!(worldIn.getTileEntity(pos.west().south()) instanceof TileEntityBetterNote)) return false;
+        return true;
     }
 }

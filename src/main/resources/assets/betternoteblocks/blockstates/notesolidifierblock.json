@@ -1,0 +1,10 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "normal": { "model": "betternoteblocks:notesolidifier" },
+    "inventory": {
+      "model": "betternoteblocks:notesolidifier",
+      "transform": "forge:default-block"
+    }
+  }
+}

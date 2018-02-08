@@ -25,13 +25,12 @@ import net.sinamegapolis.betternoteblocks.item.ItemNotalyzer;
 import net.sinamegapolis.betternoteblocks.tileentity.TileEntityBetterNote;
 
 
-import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class BlockBetterNote extends BlockNote implements IHasModel{
     private static final List<SoundEvent> INSTRUMENTS = Lists.newArrayList(SoundEvents.BLOCK_NOTE_HARP, SoundEvents.BLOCK_NOTE_BASEDRUM, SoundEvents.BLOCK_NOTE_SNARE, SoundEvents.BLOCK_NOTE_HAT, SoundEvents.BLOCK_NOTE_BASS, SoundEvents.BLOCK_NOTE_FLUTE, SoundEvents.BLOCK_NOTE_BELL, SoundEvents.BLOCK_NOTE_GUITAR, SoundEvents.BLOCK_NOTE_CHIME, SoundEvents.BLOCK_NOTE_XYLOPHONE);
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    public static EntityPlayer p = Minecraft.getMinecraft().player;
 
     public BlockBetterNote(String name)
     {
@@ -52,15 +51,20 @@ public class BlockBetterNote extends BlockNote implements IHasModel{
     {
         boolean flag = worldIn.isBlockPowered(pos);
         TileEntity tileentity = worldIn.getTileEntity(pos);
+
         if (tileentity instanceof TileEntityNote)
         {
-            TileEntityNote tileentitynote = (TileEntityNote)tileentity;
+            TileEntityBetterNote tileentitynote = (TileEntityBetterNote)tileentity;
 
             if (tileentitynote.previousRedstoneState != flag)
             {
                 if (flag)
                 {
-                    tileentitynote.triggerNote(worldIn, pos);
+                    if(tileentitynote.triggeredByRedstoneCount != 8) tileentitynote.triggeredByRedstoneCount = tileentitynote.triggeredByRedstoneCount++;
+                    else{
+                        tileentitynote.triggeredByRedstoneCount = 1;
+                    }
+                    tileentitynote.triggerBetterNote(worldIn, pos);
                 }
 
                 tileentitynote.previousRedstoneState = flag;
@@ -79,23 +83,19 @@ public class BlockBetterNote extends BlockNote implements IHasModel{
         }
         else
         {
-            if(!(playerIn.getHeldItem(hand).getItem() instanceof ItemNotalyzer)){
             TileEntity tileentity = worldIn.getTileEntity(pos);
                     if(tileentity instanceof TileEntityBetterNote){
                 TileEntityBetterNote tileentitynote = (TileEntityBetterNote) tileentity;
                 int old = tileentitynote.note;
                 tileentitynote.changePitch();
                 if (old == tileentitynote.note) return false;
-                tileentitynote.triggerNote(worldIn, pos, playerIn);
+                tileentitynote.triggerBetterNote(worldIn, pos);
                 playerIn.addStat(StatList.NOTEBLOCK_TUNED);
-            }}
+
+            }
 
             return true;
         }
-
-
-
-
     }
 
 
