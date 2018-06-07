@@ -12,7 +12,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.sinamegapolis.betternoteblocks.init.IHasModel;
 import net.sinamegapolis.betternoteblocks.init.ModRegistry;
 import net.sinamegapolis.betternoteblocks.tileentity.TileEntityNoteSolidifier;
-import net.sinamegapolis.betternoteblocks.tileentity.renderer.TileEntityNoteSolidifierRenderer;
 
 public class ClientProxy extends CommonProxy{
     @Override
@@ -40,6 +39,6 @@ public class ClientProxy extends CommonProxy{
 
     @Override
     public void registerRenderers(){
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNoteSolidifier.class,new TileEntityNoteSolidifierRenderer());
+
     }
 }

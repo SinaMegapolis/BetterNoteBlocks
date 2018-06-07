@@ -3,6 +3,7 @@ item.betternoteblocks.magicalsolidnote.name=Magical Solid Note
 
 tile.betternoteblocks.betternoteblock.name=Better NoteBlock
 tile.betternoteblocks.notesolidifier.name=Note Solidifier
+tile.betternoteblocks.trashblock.name=Trash Structure Maker(WIP)
 
 notalyzer.results.currentpitch=The Current Pitch of this BetterNoteBlock is
 notalyzer.results.instrument=Instrument:

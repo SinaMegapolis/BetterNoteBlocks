@@ -57,85 +57,71 @@ public class TileEntityBetterNote extends TileEntityNote
 
     public void triggerBetterNote(World worldIn, BlockPos posIn)
     {
-        if (worldIn.getBlockState(posIn.up()).getMaterial() == Material.AIR)
-        {
-            IBlockState iblockstate = worldIn.getBlockState(posIn.down());
-            Material material = iblockstate.getMaterial();
-            int i = 0;
-
-            if (material == Material.ROCK){
-                i = 1;
-            }
-
-            if (material == Material.SAND)
-            {
-                i = 2;
-            }
-
-            if (material == Material.GLASS)
-            {
-                i = 3;
-            }
-
-            if (material == Material.WOOD)
-            {
-                i = 4;
-            }
-
-            Block block = iblockstate.getBlock();
-
-            if (block == Blocks.CLAY)
-            {
-                i = 5;
-            }
-
-            if (block == Blocks.GOLD_BLOCK)
-            {
-                i = 6;
-            }
-
-            if (block == Blocks.WOOL)
-            {
-                i = 7;
-            }
-
-            if (block == Blocks.PACKED_ICE)
-            {
-                i = 8;
-            }
-
-            if (block == Blocks.BONE_BLOCK)
-            {
-                i = 9;
-            }
-            BlockBetterNote bbn = (BlockBetterNote)worldIn.getBlockState(posIn).getBlock();
-            worldIn.addBlockEvent(posIn, bbn, i, this.note);
-        }
+        trigggerCustomNote(worldIn, this.note, posIn);
     }
 
-    public boolean createMagicalSolidNote(World worldIn, EntityPlayer playerIn, TileEntityBetterNote te){
-        if(checkForMSNCreationStructure(worldIn, te.getPos())){
-            int amount = worldIn.rand.nextInt(10 - 5 + 1)+ 5;
-            for(int i = 0; i < amount; i++){
-                worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, te.getPos().up().getX(), te.getPos().up().getY(), te.getPos().up().getZ(), 3.0F, 3.0F, 3.0F);
+    public static boolean trigggerCustomNote(World worldIn, byte note, BlockPos posIn){
+        try{
+            if (worldIn.getBlockState(posIn.up()).getMaterial() == Material.AIR)
+            {
+                IBlockState iblockstate = worldIn.getBlockState(posIn.down());
+                Material material = iblockstate.getMaterial();
+                int i = 0;
+
+                if (material == Material.ROCK){
+                    i = 1;
+                }
+
+                if (material == Material.SAND)
+                {
+                    i = 2;
+                }
+
+                if (material == Material.GLASS)
+                {
+                    i = 3;
+                }
+
+                if (material == Material.WOOD)
+                {
+                    i = 4;
+                }
+
+                Block block = iblockstate.getBlock();
+
+                if (block == Blocks.CLAY)
+                {
+                    i = 5;
+                }
+
+                if (block == Blocks.GOLD_BLOCK)
+                {
+                    i = 6;
+                }
+
+                if (block == Blocks.WOOL)
+                {
+                    i = 7;
+                }
+
+                if (block == Blocks.PACKED_ICE)
+                {
+                    i = 8;
+                }
+
+                if (block == Blocks.BONE_BLOCK)
+                {
+                    i = 9;
+                }
+                BlockBetterNote bbn = (BlockBetterNote)worldIn.getBlockState(posIn).getBlock();
+                worldIn.addBlockEvent(posIn, bbn, i, note);
             }
-            worldIn.playSound(playerIn, te.getPos().up(),  SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, 1.0F);
             return true;
+        }catch(Exception e){
+            return false;
         }
-        return false;
     }
 
-    public boolean checkForMSNCreationStructure(World worldIn, BlockPos pos){
-        if(!(worldIn.getTileEntity(pos.east()) instanceof TileEntityBetterNote)) return false;
-        if(!(worldIn.getTileEntity(pos.east().north()) instanceof TileEntityBetterNote)) return false;
-        if(!(worldIn.getTileEntity(pos.east().south()) instanceof TileEntityBetterNote)) return false;
 
-        if(!(worldIn.getTileEntity(pos.south()) instanceof TileEntityBetterNote)) return false;
-        if(!(worldIn.getTileEntity(pos.north()) instanceof TileEntityBetterNote)) return false;
 
-        if(!(worldIn.getTileEntity(pos.west()) instanceof TileEntityBetterNote)) return false;
-        if(!(worldIn.getTileEntity(pos.west().north()) instanceof TileEntityBetterNote)) return false;
-        if(!(worldIn.getTileEntity(pos.west().south()) instanceof TileEntityBetterNote)) return false;
-        return true;
-    }
 }

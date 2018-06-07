@@ -52,14 +52,6 @@ public class ItemNotalyzer extends Item implements IHasModel{
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
         boolean isMSNStructurePresent = false;
-        if(worldIn.isRemote){
-            if(worldIn.getTileEntity(pos) instanceof TileEntityBetterNote){
-                if(((TileEntityBetterNote) worldIn.getTileEntity(pos)).createMagicalSolidNote(worldIn, player,(TileEntityBetterNote) worldIn.getTileEntity(pos))) {
-                    isMSNStructurePresent = true;
-                    return EnumActionResult.SUCCESS;
-                }
-            }
-        }
         TileEntity te = worldIn.getTileEntity(pos);
         if(!isMSNStructurePresent){
            if(te instanceof TileEntityBetterNote){
